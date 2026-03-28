@@ -1,54 +1,55 @@
 name,address,city,state,zip,lat,lng,phone,website
-Bookworm of Edwards,,Edwards,Colorado,,39.6447,-106.5945,,
-Wishes the Toy Store,,Avon,Colorado,,39.6314,-106.5222,,
-Marley & Moose,,Berthoud,Colorado,,40.3083,-105.0811,,
-Chautauqua General Store,,Boulder,Colorado,,40.0007,-105.2810,,
-Clothes Pony & Dandelion Toys,,Fort Collins,Colorado,,40.5853,-105.0844,,
-REI,,Boulder,Colorado,,40.0172,-105.2592,,
-REI,,Grand Junction,Colorado,,39.0639,-108.5506,,
-Composition Shop,,Longmont,Colorado,,40.1672,-105.1019,,
-Young Explorers Shop + Play Space,,Erie,Colorado,,40.0508,-105.0500,,
-Sunflower Farm Store,,Longmont,Colorado,,40.1575,-105.1186,,
-Sudden Fiction,,Castle Rock,Colorado,,39.3722,-104.8561,,
-Kaleidoscope Toys,,Salida,Colorado,,38.5347,-106.0000,,
-Once Upon a Trapeze Bookstore,,Buena Vista,Colorado,,38.8422,-106.1311,,
-Stork & Bear Company,,Frisco,Colorado,,39.5744,-106.0975,,
-O' Toys,,Ouray,Colorado,,38.0228,-107.6714,,
-REI,,Dillon,Colorado,,39.6311,-106.0436,,
-REI,,Glenwood Springs,Colorado,,39.5506,-107.3248,,
-Peak a Boo Toys,,Breckenridge,Colorado,,39.4817,-106.0384,,
-REI,,Fort Collins,Colorado,,40.5561,-105.0780,,
-REI,,Loveland,Colorado,,40.3978,-105.0750,,
-Townie Books,,Crested Butte,Colorado,,38.8697,-106.9878,,
-Explore Books,,Aspen,Colorado,,39.1911,-106.8175,,
-Sofi Stella,,Monroe,Michigan,,41.9164,-83.3977,,
-Mudpuddles,,Ann Arbor,Michigan,,42.2808,-83.7430,,
-DNR Outdoor Adventure Center,,Detroit,Michigan,,42.3289,-83.0519,,
-Minnesota State Park - Lake Itasca,,Park Rapids,Minnesota,,47.2288,-95.2083,,
-Tootsie Too's,,Red Wing,Minnesota,,44.5625,-92.5338,,
-Duluth Pack,,Duluth,Minnesota,,46.7867,-92.1005,,
-Red Balloon Bookshop,,St. Paul,Minnesota,,44.9397,-93.1365,,
-Runamuck Workshop,,Faribault,Minnesota,,44.2950,-93.2688,,
-Bohemian Baby,,Asheville,North Carolina,,35.5946,-82.5540,,
-Malaprop's Bookstore,,Asheville,North Carolina,,35.5943,-82.5530,,
-The Littlest Birdies,,Asheville,North Carolina,,35.5870,-82.5660,,
-Delighted,,Asheville,North Carolina,,35.5960,-82.5550,,
-Signs for Hope - Global Marketplace,,Fairview,North Carolina,,35.5143,-82.3968,,
-Montreat Store,,Montreat,North Carolina,,35.6451,-82.3068,,
-FireLight Book & Candle,,Blowing Rock,North Carolina,,36.1351,-81.6776,,
-Second Gear,,Asheville,North Carolina,,35.5900,-82.5670,,
-REI,,Asheville,North Carolina,,35.5680,-82.5328,,
-Asheville Botanical Garden,,Asheville,North Carolina,,35.6073,-82.5373,,
-MTN Merch,,Asheville,North Carolina,,35.5951,-82.5515,,
-Barnes & Noble,,Asheville,North Carolina,,35.5785,-82.5077,,
-Hendersonville Toy Company,,Hendersonville,North Carolina,,35.3187,-82.4612,,
-Ecusta Market & Cafe,,Hendersonville,North Carolina,,35.3232,-82.4610,,
-Next Venture Outdoors,,Brevard,North Carolina,,35.2334,-82.7343,,
-DD Bullwinkel's,,Brevard,North Carolina,,35.2334,-82.7310,,
-Cradle of the Forestry,,Pisgah Forest,North Carolina,,35.3437,-82.7560,,
-Pisgah Ranger Station/Visitor Center,,Pisgah Forest,North Carolina,,35.2780,-82.7297,,
-Asheville Emporium,,Asheville,North Carolina,,35.5940,-82.5520,,
-Sunrift Adventures,,Travelers Rest,South Carolina,,34.9676,-82.4393,,
-Back of Beyond Book Store,,Moab,Utah,,38.5733,-109.5498,,
-Gearheads Outdoor Store,,Moab,Utah,,38.5725,-109.5505,,
-Dungeness Kids Co,,Sequim,Washington,,48.0795,-123.1015,,
+Bookworm of Edwards,295 Main Street C101,Edwards,Colorado,81632,39.6447,-106.5945,,https://bookwormofedwards.com
+Wishes the Toy Store,240 Chapel Pl #B112,Avon,Colorado,81620,39.6314,-106.5222,,
+Marley & Moose,520 Mountain Ave,Berthoud,Colorado,80513,40.3083,-105.0811,,https://marleyandmoose.com
+Chautauqua General Store,100 Clematis Dr,Boulder,Colorado,80302,40.0007,-105.2810,,https://chautauqua.com
+Clothes Pony & Dandelion Toys,111 North College Ave,Fort Collins,Colorado,80524,40.5853,-105.0844,,https://clothespony.com
+REI - Boulder,1789 28th St,Boulder,Colorado,80301,40.0172,-105.2592,,https://www.rei.com/stores/boulder
+REI - Grand Junction,925 Independent Ave,Grand Junction,Colorado,81505,39.0639,-108.5506,,https://www.rei.com/stores/grand-junction
+Composition Shop,356 Main Street,Longmont,Colorado,80501,40.1672,-105.1019,,https://www.compositionshop.com
+Young Explorers Shop + Play Space,545 Briggs St,Erie,Colorado,80516,40.0508,-105.0500,,https://youngexplorersco.com
+Sunflower Farm Store,11150 Prospect Road,Longmont,Colorado,80504,40.1575,-105.1186,,https://www.sunflowerfarminfo.com
+Sudden Fiction,221 Perry St,Castle Rock,Colorado,80104,39.3722,-104.8561,,https://suddenfictionbooks.com
+Kaleidoscope Toys,116 F St,Salida,Colorado,81201,38.5347,-106.0000,,https://www.kaltoys.com
+"Once Upon a Trapeze Bookstore","301 E Main Street, Suite 105",Buena Vista,Colorado,81211,38.8422,-106.1311,,https://www.onceuponatrapeze.com
+Stork & Bear Company,610 Main Street,Frisco,Colorado,80443,39.5744,-106.0975,,https://storkandbearco.com
+O' Toys,539 Main Street,Ouray,Colorado,81427,38.0228,-107.6714,,https://www.otoysouray.com
+REI - Dillon,306 Dillon Ridge Rd,Dillon,Colorado,80435,39.6311,-106.0436,,https://www.rei.com/stores/dillon
+REI - Glenwood Springs,3216 S Glen Ave Suite A,Glenwood Springs,Colorado,81601,39.5506,-107.3248,,https://www.rei.com/stores/glenwood-springs
+Peak a Boo Toys,117 South Main Street,Breckenridge,Colorado,80424,39.4817,-106.0384,,https://peakabootoysusa.com
+REI - Fort Collins,4025 S College Avenue,Fort Collins,Colorado,80525,40.5561,-105.0780,,https://www.rei.com/stores/fort-collins
+REI - Loveland,1605 Fall River Dr,Loveland,Colorado,80538,40.3978,-105.0750,,https://www.rei.com/stores/loveland
+Townie Books,414 Elk Avenue,Crested Butte,Colorado,,38.8697,-106.9878,,
+Explore Books,221 E Main St,Aspen,Colorado,81611,39.1911,-106.8175,,https://explorebooks.org
+Sofi Stella,15155 S Dixie Hwy,Monroe,Michigan,48161,41.9164,-83.3977,,https://sofistella.com
+Mudpuddles,407 N 5th Ave,Ann Arbor,Michigan,48104,42.2808,-83.7430,,https://mudpuddlesa2.com
+DNR Outdoor Adventure Center,1801 Atwater St,Detroit,Michigan,48207,42.3289,-83.0519,,https://www.michigan.gov/oac
+Minnesota State Park - Lake Itasca,36750 Main Park Drive,Park Rapids,Minnesota,56470,47.2288,-95.2083,,https://dnr.state.mn.us
+Tootsie Too's,401 West 3rd St,Red Wing,Minnesota,55066,44.5625,-92.5338,,https://tootsietoos.com
+Duluth Pack,365 Canal Park Drive,Duluth,Minnesota,55802,46.7867,-92.1005,,
+Red Balloon Bookshop,891 Grand Avenue,St. Paul,Minnesota,55105,44.9397,-93.1365,,
+Runamuck Workshop,214 Central Avenue,Faribault,Minnesota,55021,44.2950,-93.2688,,
+"Bohemian Baby","1 Page Ave Suite 145-B",Asheville,North Carolina,28801,35.5946,-82.5540,,https://avlbohobaby.com
+Malaprops,55 Haywood St.,Asheville,North Carolina,28801,35.5943,-82.5530,,https://malaprops.com
+The Littlest Birdies,3 S Tunnel Rd,Asheville,North Carolina,28805,35.5870,-82.5660,,https://thelittlestbirds.com
+Delighted,63 Haywood St.,Asheville,North Carolina,28801,35.5960,-82.5550,,https://delightedgiftshop.com
+Signs for Hope - Global Marketplace,379 Old Charlotte Hwy A,Fairview,North Carolina,28730,35.5143,-82.3968,,https://signsforhope.org
+Montreat Store,303 Lookout Rd,Montreat,North Carolina,28757,35.6451,-82.3068,,https://montreat.org
+FireLight Book & Candle,110 Sunset Dr Suite 1,Blowing Rock,North Carolina,28605,36.1351,-81.6776,,https://www.firelightcandle.com
+Second Gear,52 Westgate Pkwy,Asheville,North Carolina,28806,35.5900,-82.5670,,https://secondgearwnc.com
+REI - Asheville,31 Schenck Parkway,Asheville,North Carolina,28803,35.5680,-82.5328,,https://www.rei.com/stores/asheville
+Asheville Botanical Garden,151 W.T. Weaver Blvd.,Asheville,North Carolina,28804,35.6073,-82.5373,,https://ashevillebotanicalgarden.org
+MTN Merch,49 N Lexington Ave,Asheville,North Carolina,28801,35.5951,-82.5515,,https://www.mtnmerch.com
+"MTN Merch","800 Brevard Rd, Suite 120",Asheville,North Carolina,28806,35.5660,-82.6010,,https://www.mtnmerch.com
+Barnes & Noble Asheville Mall,3 S Tunnel Rd,Asheville,North Carolina,28805,35.5785,-82.5077,,https://stores.barnesandnoble.com/store/2347
+Hendersonville Toy Company,315 S Church St Suite B,Hendersonville,North Carolina,28792,35.3187,-82.4612,,https://www.hvltoycompany.com
+Ecusta Market & Cafe,877 Lenox Park Dr,Hendersonville,North Carolina,28739,35.3232,-82.4610,,https://www.ecustamarketandcafe.com
+Next Venture Outdoors,190 N Broad St,Brevard,North Carolina,28712,35.2334,-82.7343,,https://www.nextventureoutdoors.com
+DD Bullwinkel's,60 E Main St,Brevard,North Carolina,28712,35.2334,-82.7310,,https://ddbullwinkels.com
+Cradle of the Forestry,11250 Pisgah Hwy,Pisgah Forest,North Carolina,28768,35.3437,-82.7560,,https://gofindoutdoors.org/sites/cradle-of-forestry/
+Pisgah Ranger Station/Visitor Center,1600 Pisgah Hwy,Pisgah Forest,North Carolina,28768,35.2780,-82.7297,,https://gofindoutdoors.org/sites/pisgah-visitor-center-gift-shop/
+Asheville Emporium,4 Biltmore Ave,Asheville,North Carolina,28801,35.5940,-82.5520,,https://asheville-emporium.com
+Sunrift Adventures,1 Center St,Travelers Rest,South Carolina,29690,34.9676,-82.4393,,https://www.sunrift.com
+Back of Beyond Book Store,83 N Main St,Moab,Utah,84532,38.5733,-109.5498,,https://backofbeyondbooks.com
+Gearheads Outdoor Store,471 S Main St,Moab,Utah,84532,38.5725,-109.5505,,https://www.moabgear.com
+Dungeness Kids Co,163 Washington St.,Sequim,Washington,98382,48.0795,-123.1015,,https://dungenesskids.com
