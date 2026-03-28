@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Store - Open Your Door to Explore</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #store-locator {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* ---- Sidebar ---- */
+        .sidebar {
+            width: 400px;
+            min-width: 400px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #ddd;
+            background: #fff;
+        }
+
+        .search-container {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background: #f8f7f5;
+        }
+
+        .search-container h2 {
+            font-size: 18px;
+            margin-bottom: 14px;
+            color: #2c5530;
+            font-weight: 600;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .search-row input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-row input:focus {
+            border-color: #2c5530;
+            box-shadow: 0 0 0 2px rgba(44, 85, 48, 0.15);
+        }
+
+        .search-row select {
+            padding: 10px 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #fff;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .search-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-btn {
+            padding: 10px 22px;
+            background: #2c5530;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .search-btn:hover { background: #1e3d22; }
+
+        .locate-btn {
+            padding: 10px 14px;
+            background: #fff;
+            color: #2c5530;
+            border: 1px solid #2c5530;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .locate-btn:hover { background: #f0f7f0; }
+
+        .locate-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: #2c5530;
+        }
+
+        .reset-btn {
+            padding: 10px 14px;
+            background: transparent;
+            color: #666;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .reset-btn:hover { background: #f0f0f0; }
+
+        .store-count {
+            font-size: 13px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        /* ---- Store List ---- */
+        .store-list {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .store-list::-webkit-scrollbar { width: 6px; }
+        .store-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+        .state-group { border-bottom: 1px solid #eee; }
+
+        .state-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #f8f7f5;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid #eee;
+            transition: background 0.15s;
+        }
+
+        .state-header:hover { background: #f0efe9; }
+
+        .state-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .state-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c5530;
+        }
+
+        .state-header .count {
+            font-size: 11px;
+            color: #888;
+            background: #e8e8e8;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .state-header .chevron {
+            font-size: 10px;
+            color: #999;
+            transition: transform 0.2s;
+        }
+
+        .state-header.collapsed .chevron { transform: rotate(-90deg); }
+
+        .state-stores.hidden { display: none; }
+
+        .store-item {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.15s, border-left 0.15s;
+            border-left: 3px solid transparent;
+        }
+
+        .store-item:hover { background: #f8f7f5; }
+
+        .store-item.active {
+            background: #e8f5e9;
+            border-left-color: #2c5530;
+        }
+
+        .store-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+            color: #333;
+        }
+
+        .store-location {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .store-distance {
+            font-size: 12px;
+            color: #2c5530;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* ---- Map ---- */
+        .map-container { flex: 1; height: 100%; }
+        #map { width: 100%; height: 100%; }
+
+        /* ---- Info Window ---- */
+        .iw { padding: 4px 2px; max-width: 260px; }
+        .iw h4 { font-size: 15px; margin-bottom: 6px; color: #2c5530; }
+        .iw p { font-size: 13px; color: #555; margin-bottom: 3px; line-height: 1.4; }
+        .iw a { color: #2c5530; text-decoration: none; }
+        .iw a:hover { text-decoration: underline; }
+
+        .iw .directions-link {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 14px;
+            background: #2c5530;
+            color: #fff !important;
+            border-radius: 4px;
+            font-size: 12px;
+            text-decoration: none !important;
+        }
+
+        .iw .directions-link:hover { background: #1e3d22; }
+
+        /* ---- States ---- */
+        .no-results {
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .loading {
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-top-color: #2c5530;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 768px) {
+            #store-locator { flex-direction: column-reverse; }
+
+            .sidebar {
+                width: 100%;
+                min-width: unset;
+                height: 50vh;
+                border-right: none;
+                border-top: 2px solid #ddd;
+            }
+
+            .map-container { height: 50vh; }
+
+            .search-row { flex-wrap: wrap; }
+            .search-row input { min-width: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="store-locator">
+        <div class="sidebar">
+            <div class="search-container">
+                <h2>Find a Store</h2>
+                <div class="search-row">
+                    <input type="text" id="zip-input" placeholder="Enter zip code or city, state" />
+                    <select id="distance-select">
+                        <option value="10">10 mi</option>
+                        <option value="25">25 mi</option>
+                        <option value="50" selected>50 mi</option>
+                        <option value="100">100 mi</option>
+                        <option value="250">250 mi</option>
+                    </select>
+                </div>
+                <div class="search-actions">
+                    <button class="search-btn" id="search-btn">Search</button>
+                    <button class="locate-btn" id="locate-btn" title="Use my location">
+                        <svg viewBox="0 0 24 24"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                        Near Me
+                    </button>
+                    <button class="reset-btn" id="reset-btn">Show All</button>
+                </div>
+                <div class="store-count" id="store-count"></div>
+            </div>
+            <div class="store-list" id="store-list">
+                <div class="loading">Loading stores</div>
+            </div>
+        </div>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+
+<script>
+// =================================================================
+//  CONFIGURATION
+// =================================================================
+const CONFIG = {
+    // Google Sheets published-as-CSV URL.
+    // Set up: Google Sheet -> File -> Share -> Publish to web -> CSV
+    // Leave empty to use the STORES array below as a fallback.
+    GOOGLE_SHEET_CSV_URL: '',
+
+    // Map starting view (center of US)
+    DEFAULT_CENTER: { lat: 39.5, lng: -98.35 },
+    DEFAULT_ZOOM: 4,
+    MARKER_COLOR: '#2c5530',
+};
+
+// =================================================================
+//  EMBEDDED STORE DATA  (used when Google Sheet URL is not set)
+//  Keep this up-to-date, OR configure the Google Sheet above.
+// =================================================================
+const STORES = [
+    // --- Colorado ---
+    { name: "Bookworm of Edwards", city: "Edwards", state: "Colorado", lat: 39.6447, lng: -106.5945 },
+    { name: "Wishes the Toy Store", city: "Avon", state: "Colorado", lat: 39.6314, lng: -106.5222 },
+    { name: "Marley & Moose", city: "Berthoud", state: "Colorado", lat: 40.3083, lng: -105.0811 },
+    { name: "Chautauqua General Store", city: "Boulder", state: "Colorado", lat: 40.0007, lng: -105.2810 },
+    { name: "Clothes Pony & Dandelion Toys", city: "Fort Collins", state: "Colorado", lat: 40.5853, lng: -105.0844 },
+    { name: "REI", city: "Boulder", state: "Colorado", lat: 40.0172, lng: -105.2592 },
+    { name: "REI", city: "Grand Junction", state: "Colorado", lat: 39.0639, lng: -108.5506 },
+    { name: "Composition Shop", city: "Longmont", state: "Colorado", lat: 40.1672, lng: -105.1019 },
+    { name: "Young Explorers Shop + Play Space", city: "Erie", state: "Colorado", lat: 40.0508, lng: -105.0500 },
+    { name: "Sunflower Farm Store", city: "Longmont", state: "Colorado", lat: 40.1575, lng: -105.1186 },
+    { name: "Sudden Fiction", city: "Castle Rock", state: "Colorado", lat: 39.3722, lng: -104.8561 },
+    { name: "Kaleidoscope Toys", city: "Salida", state: "Colorado", lat: 38.5347, lng: -106.0000 },
+    { name: "Once Upon a Trapeze Bookstore", city: "Buena Vista", state: "Colorado", lat: 38.8422, lng: -106.1311 },
+    { name: "Stork & Bear Company", city: "Frisco", state: "Colorado", lat: 39.5744, lng: -106.0975 },
+    { name: "O' Toys", city: "Ouray", state: "Colorado", lat: 38.0228, lng: -107.6714 },
+    { name: "REI", city: "Dillon", state: "Colorado", lat: 39.6311, lng: -106.0436 },
+    { name: "REI", city: "Glenwood Springs", state: "Colorado", lat: 39.5506, lng: -107.3248 },
+    { name: "Peak a Boo Toys", city: "Breckenridge", state: "Colorado", lat: 39.4817, lng: -106.0384 },
+    { name: "REI", city: "Fort Collins", state: "Colorado", lat: 40.5561, lng: -105.0780 },
+    { name: "REI", city: "Loveland", state: "Colorado", lat: 40.3978, lng: -105.0750 },
+    { name: "Townie Books", city: "Crested Butte", state: "Colorado", lat: 38.8697, lng: -106.9878 },
+    { name: "Explore Books", city: "Aspen", state: "Colorado", lat: 39.1911, lng: -106.8175 },
+
+    // --- Michigan ---
+    { name: "Sofi Stella", city: "Monroe", state: "Michigan", lat: 41.9164, lng: -83.3977 },
+    { name: "Mudpuddles", city: "Ann Arbor", state: "Michigan", lat: 42.2808, lng: -83.7430 },
+    { name: "DNR Outdoor Adventure Center", city: "Detroit", state: "Michigan", lat: 42.3289, lng: -83.0519 },
+
+    // --- Minnesota ---
+    { name: "Minnesota State Park - Lake Itasca", city: "Park Rapids", state: "Minnesota", lat: 47.2288, lng: -95.2083 },
+    { name: "Tootsie Too's", city: "Red Wing", state: "Minnesota", lat: 44.5625, lng: -92.5338 },
+    { name: "Duluth Pack", city: "Duluth", state: "Minnesota", lat: 46.7867, lng: -92.1005 },
+    { name: "Red Balloon Bookshop", city: "St. Paul", state: "Minnesota", lat: 44.9397, lng: -93.1365 },
+    { name: "Runamuck Workshop", city: "Faribault", state: "Minnesota", lat: 44.2950, lng: -93.2688 },
+
+    // --- North Carolina ---
+    { name: "Bohemian Baby", city: "Asheville", state: "North Carolina", lat: 35.5946, lng: -82.5540 },
+    { name: "Malaprop's Bookstore", city: "Asheville", state: "North Carolina", lat: 35.5943, lng: -82.5530 },
+    { name: "The Littlest Birdies", city: "Asheville", state: "North Carolina", lat: 35.5870, lng: -82.5660 },
+    { name: "Delighted", city: "Asheville", state: "North Carolina", lat: 35.5960, lng: -82.5550 },
+    { name: "Signs for Hope - Global Marketplace", city: "Fairview", state: "North Carolina", lat: 35.5143, lng: -82.3968 },
+    { name: "Montreat Store", city: "Montreat", state: "North Carolina", lat: 35.6451, lng: -82.3068 },
+    { name: "FireLight Book & Candle", city: "Blowing Rock", state: "North Carolina", lat: 36.1351, lng: -81.6776 },
+    { name: "Second Gear", city: "Asheville", state: "North Carolina", lat: 35.5900, lng: -82.5670 },
+    { name: "REI", city: "Asheville", state: "North Carolina", lat: 35.5680, lng: -82.5328 },
+    { name: "Asheville Botanical Garden", city: "Asheville", state: "North Carolina", lat: 35.6073, lng: -82.5373 },
+    { name: "MTN Merch", city: "Asheville", state: "North Carolina", lat: 35.5951, lng: -82.5515 },
+    { name: "Barnes & Noble", city: "Asheville", state: "North Carolina", lat: 35.5785, lng: -82.5077 },
+    { name: "Hendersonville Toy Company", city: "Hendersonville", state: "North Carolina", lat: 35.3187, lng: -82.4612 },
+    { name: "Ecusta Market & Cafe", city: "Hendersonville", state: "North Carolina", lat: 35.3232, lng: -82.4610 },
+    { name: "Next Venture Outdoors", city: "Brevard", state: "North Carolina", lat: 35.2334, lng: -82.7343 },
+    { name: "DD Bullwinkel's", city: "Brevard", state: "North Carolina", lat: 35.2334, lng: -82.7310 },
+    { name: "Cradle of the Forestry", city: "Pisgah Forest", state: "North Carolina", lat: 35.3437, lng: -82.7560 },
+    { name: "Pisgah Ranger Station/Visitor Center", city: "Pisgah Forest", state: "North Carolina", lat: 35.2780, lng: -82.7297 },
+    { name: "Asheville Emporium", city: "Asheville", state: "North Carolina", lat: 35.5940, lng: -82.5520 },
+
+    // --- South Carolina ---
+    { name: "Sunrift Adventures", city: "Travelers Rest", state: "South Carolina", lat: 34.9676, lng: -82.4393 },
+
+    // --- Utah ---
+    { name: "Back of Beyond Book Store", city: "Moab", state: "Utah", lat: 38.5733, lng: -109.5498 },
+    { name: "Gearheads Outdoor Store", city: "Moab", state: "Utah", lat: 38.5725, lng: -109.5505 },
+
+    // --- Washington ---
+    { name: "Dungeness Kids Co", city: "Sequim", state: "Washington", lat: 48.0795, lng: -123.1015 },
+];
+
+// =================================================================
+//  APP STATE
+// =================================================================
+let map, markers = [], infoWindow, stores = [], searchCircle = null;
+
+// =================================================================
+//  CSV PARSING
+// =================================================================
+function parseCSVLine(line) {
+    const result = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') { inQ = !inQ; }
+        else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+        else { cur += c; }
+    }
+    result.push(cur);
+    return result;
+}
+
+function parseCSV(csv) {
+    const lines = csv.split('\n').filter(l => l.trim());
+    if (lines.length < 2) return [];
+
+    const headers = lines[0].split(',').map(h =>
+        h.trim().toLowerCase().replace(/[^a-z]/g, '')
+    );
+    const result = [];
+
+    for (let i = 1; i < lines.length; i++) {
+        const vals = parseCSVLine(lines[i]);
+        if (vals.length < 3) continue;
+        const row = {};
+        headers.forEach((h, idx) => { row[h] = (vals[idx] || '').trim(); });
+        if (!row.name || !row.state) continue;
+
+        result.push({
+            name:    row.name,
+            address: row.address || '',
+            city:    row.city || '',
+            state:   row.state,
+            zip:     row.zip || '',
+            lat:     parseFloat(row.lat) || null,
+            lng:     parseFloat(row.lng) || null,
+            phone:   row.phone || '',
+            website: row.website || '',
+        });
+    }
+    return result;
+}
+
+// =================================================================
+//  DATA LOADING
+// =================================================================
+async function loadStores() {
+    if (CONFIG.GOOGLE_SHEET_CSV_URL) {
+        try {
+            const res = await fetch(CONFIG.GOOGLE_SHEET_CSV_URL);
+            if (!res.ok) throw new Error(res.statusText);
+            const csv = await res.text();
+            const parsed = parseCSV(csv);
+            if (parsed.length > 0) {
+                stores = parsed;
+                await geocodeMissing();
+                return;
+            }
+        } catch (e) {
+            console.warn('Google Sheet fetch failed, using embedded data:', e);
+        }
+    }
+    stores = STORES.map(s => ({ ...s }));
+}
+
+async function geocodeMissing() {
+    const gc = new google.maps.Geocoder();
+    const need = stores.filter(s => !s.lat || !s.lng);
+    if (!need.length) return;
+
+    for (const store of need) {
+        const addr = [store.address, store.city, store.state, store.zip]
+            .filter(Boolean).join(', ');
+        try {
+            const result = await new Promise((resolve, reject) => {
+                gc.geocode({ address: addr }, (results, status) => {
+                    status === 'OK' && results[0] ? resolve(results[0]) : reject(status);
+                });
+            });
+            store.lat = result.geometry.location.lat();
+            store.lng = result.geometry.location.lng();
+        } catch (e) {
+            console.warn(`Geocode failed for "${store.name}" (${addr}):`, e);
+        }
+    }
+}
+
+// =================================================================
+//  DISTANCE
+// =================================================================
+function haversine(lat1, lng1, lat2, lng2) {
+    const R = 3959; // miles
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// =================================================================
+//  MAP HELPERS
+// =================================================================
+function createMarker(store, index) {
+    if (!store.lat || !store.lng) return null;
+
+    const marker = new google.maps.Marker({
+        position: { lat: store.lat, lng: store.lng },
+        map,
+        title: store.name,
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 8,
+            fillColor: CONFIG.MARKER_COLOR,
+            fillOpacity: 0.9,
+            strokeColor: '#ffffff',
+            strokeWeight: 2,
+        },
+    });
+
+    marker.addListener('click', () => {
+        openInfoWindow(store, marker);
+        highlightSidebar(index);
+    });
+
+    marker._storeIndex = index;
+    return marker;
+}
+
+function openInfoWindow(store, marker) {
+    const loc = [store.city, store.state].filter(Boolean).join(', ');
+    const addr = store.address ? `<p>${store.address}</p>` : '';
+    const phone = store.phone ? `<p>${store.phone}</p>` : '';
+    const web = store.website
+        ? `<p><a href="${store.website}" target="_blank" rel="noopener">Visit Website</a></p>` : '';
+    const dist = store._distance != null
+        ? `<p><strong>${store._distance.toFixed(1)} miles away</strong></p>` : '';
+
+    const dirUrl = 'https://www.google.com/maps/dir/?api=1&destination=' +
+        encodeURIComponent([store.name, store.address, loc].filter(Boolean).join(', '));
+
+    infoWindow.setContent(`
+        <div class="iw">
+            <h4>${store.name}</h4>
+            <p>${loc}</p>
+            ${addr}${phone}${web}${dist}
+            <a class="directions-link" href="${dirUrl}" target="_blank" rel="noopener">Get Directions</a>
+        </div>
+    `);
+    infoWindow.open(map, marker);
+}
+
+function highlightSidebar(index) {
+    document.querySelectorAll('.store-item').forEach(el => el.classList.remove('active'));
+    const el = document.querySelector(`.store-item[data-index="${index}"]`);
+    if (el) {
+        el.classList.add('active');
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+function clearMarkers() {
+    markers.forEach(m => { if (m) m.setMap(null); });
+    markers = [];
+    if (searchCircle) { searchCircle.setMap(null); searchCircle = null; }
+}
+
+function fitBounds(list) {
+    if (!list.length) return;
+    if (list.length === 1 && list[0].lat) {
+        map.setCenter({ lat: list[0].lat, lng: list[0].lng });
+        map.setZoom(13);
+        return;
+    }
+    const bounds = new google.maps.LatLngBounds();
+    list.forEach(s => { if (s.lat && s.lng) bounds.extend({ lat: s.lat, lng: s.lng }); });
+    map.fitBounds(bounds, 50);
+}
+
+// =================================================================
+//  RENDERING
+// =================================================================
+function groupByState(list) {
+    const groups = {};
+    list.forEach(s => {
+        const st = s.state || 'Other';
+        (groups[st] = groups[st] || []).push(s);
+    });
+    const sorted = {};
+    Object.keys(groups).sort().forEach(st => {
+        sorted[st] = groups[st].sort((a, b) => a.city.localeCompare(b.city));
+    });
+    return sorted;
+}
+
+function renderStores(list, searchMode) {
+    clearMarkers();
+    const listEl = document.getElementById('store-list');
+    const countEl = document.getElementById('store-count');
+
+    countEl.textContent = `${list.length} store${list.length !== 1 ? 's' : ''} found`;
+
+    if (!list.length) {
+        listEl.innerHTML = '<div class="no-results">No stores found in this area.<br>Try increasing the search distance.</div>';
+        return;
+    }
+
+    let html = '';
+
+    if (searchMode) {
+        // Flat list sorted by distance
+        list.forEach(store => {
+            const idx = stores.indexOf(store);
+            const dist = store._distance != null
+                ? `<div class="store-distance">${store._distance.toFixed(1)} miles away</div>` : '';
+            html += `<div class="store-item" data-index="${idx}" onclick="onStoreClick(${idx})">
+                <div class="store-name">${store.name}</div>
+                <div class="store-location">${store.city}, ${store.state}</div>
+                ${dist}
+            </div>`;
+        });
+    } else {
+        // Grouped by state
+        const groups = groupByState(list);
+        for (const [state, arr] of Object.entries(groups)) {
+            html += `<div class="state-group">
+                <div class="state-header" onclick="toggleState(this)">
+                    <div class="state-header-left">
+                        <h3>${state}</h3>
+                        <span class="count">${arr.length}</span>
+                    </div>
+                    <span class="chevron">&#9660;</span>
+                </div>
+                <div class="state-stores">`;
+            arr.forEach(store => {
+                const idx = stores.indexOf(store);
+                html += `<div class="store-item" data-index="${idx}" onclick="onStoreClick(${idx})">
+                    <div class="store-name">${store.name}</div>
+                    <div class="store-location">${store.city}, ${store.state}</div>
+                </div>`;
+            });
+            html += '</div></div>';
+        }
+    }
+
+    listEl.innerHTML = html;
+
+    // Create markers
+    list.forEach(store => {
+        const idx = stores.indexOf(store);
+        const m = createMarker(store, idx);
+        if (m) markers.push(m);
+    });
+
+    fitBounds(list);
+}
+
+// =================================================================
+//  INTERACTIONS
+// =================================================================
+function toggleState(header) {
+    header.classList.toggle('collapsed');
+    header.nextElementSibling.classList.toggle('hidden');
+}
+
+function onStoreClick(index) {
+    const store = stores[index];
+    if (!store || !store.lat || !store.lng) return;
+
+    map.panTo({ lat: store.lat, lng: store.lng });
+    map.setZoom(14);
+
+    const marker = markers.find(m => m && m._storeIndex === index);
+    if (marker) openInfoWindow(store, marker);
+    highlightSidebar(index);
+}
+
+// =================================================================
+//  SEARCH
+// =================================================================
+async function doSearch(lat, lng) {
+    const distance = parseInt(document.getElementById('distance-select').value);
+
+    // If lat/lng not provided, geocode the input
+    if (lat == null || lng == null) {
+        const query = document.getElementById('zip-input').value.trim();
+        if (!query) return;
+
+        const gc = new google.maps.Geocoder();
+        try {
+            const result = await new Promise((resolve, reject) => {
+                gc.geocode({ address: query, componentRestrictions: { country: 'US' } },
+                    (results, status) => {
+                        status === 'OK' && results[0] ? resolve(results[0]) : reject(status);
+                    });
+            });
+            lat = result.geometry.location.lat();
+            lng = result.geometry.location.lng();
+        } catch (e) {
+            alert('Could not find that location. Try a different zip code or city name.');
+            return;
+        }
+    }
+
+    // Calculate distances
+    stores.forEach(s => {
+        s._distance = (s.lat && s.lng) ? haversine(lat, lng, s.lat, s.lng) : null;
+    });
+
+    const filtered = stores
+        .filter(s => s._distance != null && s._distance <= distance)
+        .sort((a, b) => a._distance - b._distance);
+
+    renderStores(filtered, true);
+
+    // Draw radius circle
+    if (searchCircle) searchCircle.setMap(null);
+    searchCircle = new google.maps.Circle({
+        map,
+        center: { lat, lng },
+        radius: distance * 1609.34,
+        fillColor: '#2c5530',
+        fillOpacity: 0.05,
+        strokeColor: '#2c5530',
+        strokeOpacity: 0.3,
+        strokeWeight: 1,
+    });
+}
+
+function resetSearch() {
+    document.getElementById('zip-input').value = '';
+    stores.forEach(s => { delete s._distance; });
+    if (searchCircle) { searchCircle.setMap(null); searchCircle = null; }
+    infoWindow.close();
+    renderStores(stores, false);
+}
+
+function useMyLocation() {
+    if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser.');
+        return;
+    }
+    navigator.geolocation.getCurrentPosition(
+        pos => doSearch(pos.coords.latitude, pos.coords.longitude),
+        () => alert('Unable to get your location. Please enter a zip code instead.')
+    );
+}
+
+// =================================================================
+//  INIT
+// =================================================================
+async function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: CONFIG.DEFAULT_CENTER,
+        zoom: CONFIG.DEFAULT_ZOOM,
+        styles: [
+            { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+            { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+        ],
+        mapTypeControl: false,
+        fullscreenControl: true,
+        streetViewControl: false,
+    });
+
+    infoWindow = new google.maps.InfoWindow();
+
+    await loadStores();
+    renderStores(stores, false);
+
+    document.getElementById('search-btn').addEventListener('click', () => doSearch());
+    document.getElementById('reset-btn').addEventListener('click', resetSearch);
+    document.getElementById('locate-btn').addEventListener('click', useMyLocation);
+    document.getElementById('zip-input').addEventListener('keypress', e => {
+        if (e.key === 'Enter') doSearch();
+    });
+}
+
+window.initMap = initMap;
+</script>
+
+<!-- Replace YOUR_API_KEY with your Google Maps API key -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=geometry">
+</script>
+</body>
+</html>
