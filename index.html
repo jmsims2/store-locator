@@ -8,8 +8,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #333;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            color: #000;
             height: 100vh;
             overflow: hidden;
         }
@@ -34,14 +34,15 @@
         .search-container {
             padding: 20px;
             border-bottom: 1px solid #e0e0e0;
-            background: #f8f7f5;
+            background: #fafafa;
         }
 
         .search-container h2 {
             font-size: 18px;
             margin-bottom: 14px;
-            color: #2c5530;
+            color: #000;
             font-weight: 600;
+            letter-spacing: 0.02em;
         }
 
         .search-row {
@@ -61,8 +62,8 @@
         }
 
         .search-row input:focus {
-            border-color: #2c5530;
-            box-shadow: 0 0 0 2px rgba(44, 85, 48, 0.15);
+            border-color: #3A80D5;
+            box-shadow: 0 0 0 2px rgba(58, 128, 213, 0.15);
         }
 
         .search-row select {
@@ -82,23 +83,24 @@
 
         .search-btn {
             padding: 10px 22px;
-            background: #2c5530;
+            background: #000;
             color: #fff;
             border: none;
             border-radius: 6px;
             font-size: 14px;
             cursor: pointer;
             font-weight: 500;
+            letter-spacing: 0.03em;
             transition: background 0.2s;
         }
 
-        .search-btn:hover { background: #1e3d22; }
+        .search-btn:hover { background: #333; }
 
         .locate-btn {
             padding: 10px 14px;
             background: #fff;
-            color: #2c5530;
-            border: 1px solid #2c5530;
+            color: #000;
+            border: 1px solid #000;
             border-radius: 6px;
             font-size: 14px;
             cursor: pointer;
@@ -108,12 +110,12 @@
             gap: 4px;
         }
 
-        .locate-btn:hover { background: #f0f7f0; }
+        .locate-btn:hover { background: #f5f5f5; }
 
         .locate-btn svg {
             width: 16px;
             height: 16px;
-            fill: #2c5530;
+            fill: #000;
         }
 
         .reset-btn {
@@ -152,14 +154,14 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 20px;
-            background: #f8f7f5;
+            background: #fafafa;
             cursor: pointer;
             user-select: none;
             border-bottom: 1px solid #eee;
             transition: background 0.15s;
         }
 
-        .state-header:hover { background: #f0efe9; }
+        .state-header:hover { background: #f0f0f0; }
 
         .state-header-left {
             display: flex;
@@ -170,7 +172,8 @@
         .state-header h3 {
             font-size: 14px;
             font-weight: 600;
-            color: #2c5530;
+            color: #000;
+            letter-spacing: 0.02em;
         }
 
         .state-header .count {
@@ -202,15 +205,15 @@
         .store-item:hover { background: #f8f7f5; }
 
         .store-item.active {
-            background: #e8f5e9;
-            border-left-color: #2c5530;
+            background: #fef9e0;
+            border-left-color: #FDD705;
         }
 
         .store-name {
             font-weight: 600;
             font-size: 14px;
             margin-bottom: 2px;
-            color: #333;
+            color: #000;
         }
 
         .store-location {
@@ -220,7 +223,7 @@
 
         .store-distance {
             font-size: 12px;
-            color: #2c5530;
+            color: #3A80D5;
             font-weight: 500;
             margin-top: 4px;
         }
@@ -230,24 +233,25 @@
         #map { width: 100%; height: 100%; }
 
         /* ---- Info Window ---- */
-        .iw { padding: 4px 2px; max-width: 260px; }
-        .iw h4 { font-size: 15px; margin-bottom: 6px; color: #2c5530; }
+        .iw { padding: 4px 2px; max-width: 260px; font-family: "Helvetica Neue", Arial, sans-serif; }
+        .iw h4 { font-size: 15px; margin-bottom: 6px; color: #000; font-weight: 600; }
         .iw p { font-size: 13px; color: #555; margin-bottom: 3px; line-height: 1.4; }
-        .iw a { color: #2c5530; text-decoration: none; }
+        .iw a { color: #3A80D5; text-decoration: none; }
         .iw a:hover { text-decoration: underline; }
 
         .iw .directions-link {
             display: inline-block;
             margin-top: 8px;
             padding: 6px 14px;
-            background: #2c5530;
+            background: #000;
             color: #fff !important;
             border-radius: 4px;
             font-size: 12px;
             text-decoration: none !important;
+            letter-spacing: 0.03em;
         }
 
-        .iw .directions-link:hover { background: #1e3d22; }
+        .iw .directions-link:hover { background: #333; }
 
         /* ---- States ---- */
         .no-results {
@@ -271,7 +275,7 @@
             width: 18px;
             height: 18px;
             border: 2px solid #ddd;
-            border-top-color: #2c5530;
+            border-top-color: #3A80D5;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin-left: 8px;
@@ -346,7 +350,7 @@ const CONFIG = {
     // Map starting view (center of US)
     DEFAULT_CENTER: { lat: 39.5, lng: -98.35 },
     DEFAULT_ZOOM: 4,
-    MARKER_COLOR: '#2c5530',
+    MARKER_COLOR: '#3A80D5',
 };
 
 // =================================================================
@@ -752,9 +756,9 @@ async function doSearch(lat, lng) {
         map,
         center: { lat, lng },
         radius: distance * 1609.34,
-        fillColor: '#2c5530',
+        fillColor: '#3A80D5',
         fillOpacity: 0.05,
-        strokeColor: '#2c5530',
+        strokeColor: '#3A80D5',
         strokeOpacity: 0.3,
         strokeWeight: 1,
     });
