@@ -213,19 +213,24 @@
         .store-name {
             font-weight: 600;
             font-size: 14px;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
             color: #000;
+        }
+
+        .store-address {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.3;
         }
 
         .store-location {
             font-size: 13px;
-            color: #777;
+            color: #555;
+            line-height: 1.3;
         }
 
-        .store-address {
-            font-size: 12px;
-            color: #999;
-            margin-top: 2px;
+        .store-website {
+            margin-top: 4px;
         }
 
         .store-website a {
@@ -672,14 +677,14 @@ function renderStores(list, searchMode) {
     function storeItemHtml(store, showDist) {
         const idx = stores.indexOf(store);
         const addr = store.address ? `<div class="store-address">${store.address}</div>` : '';
+        const loc = `<div class="store-location">${store.city}, ${store.state}${store.zip ? ' ' + store.zip : ''}</div>`;
         const web = store.website
             ? `<div class="store-website"><a href="${store.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${store.website.replace(/^https?:\/\/(www\.)?/, '')}</a></div>` : '';
         const dist = showDist && store._distance != null
             ? `<div class="store-distance">${store._distance.toFixed(1)} miles away</div>` : '';
         return `<div class="store-item" data-index="${idx}" onclick="onStoreClick(${idx})">
             <div class="store-name">${store.name}</div>
-            <div class="store-location">${store.city}, ${store.state}</div>
-            ${addr}${web}${dist}
+            ${addr}${loc}${web}${dist}
         </div>`;
     }
 
