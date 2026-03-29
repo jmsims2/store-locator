@@ -256,10 +256,11 @@
 
         /* ---- Info Window ---- */
         .iw { padding: 4px 2px; max-width: 260px; font-family: "Helvetica Neue", Arial, sans-serif; }
-        .iw h4 { font-size: 15px; margin-bottom: 6px; color: #000; font-weight: 600; }
-        .iw p { font-size: 13px; color: #555; margin-bottom: 3px; line-height: 1.4; }
-        .iw a { color: #3A80D5; text-decoration: none; }
+        .iw h4 { font-size: 14px; margin-bottom: 4px; color: #000; font-weight: 600; }
+        .iw p { font-size: 13px; color: #555; margin-bottom: 0; line-height: 1.3; }
+        .iw a { color: #3A80D5; text-decoration: none; font-size: 12px; }
         .iw a:hover { text-decoration: underline; }
+        .iw-distance { color: #3A80D5; font-weight: 500; font-size: 12px; margin-top: 4px; }
 
         .iw .directions-link {
             display: inline-block;
@@ -574,7 +575,7 @@ function createMarker(store, index) {
     const marker = new google.maps.Marker({
         position: { lat: store.lat, lng: store.lng },
         map,
-        title: store.name,
+        title: store.name + (store.city ? ' — ' + store.city : ''),
         icon: {
             path: google.maps.SymbolPath.CIRCLE,
             scale: 8,
@@ -595,22 +596,21 @@ function createMarker(store, index) {
 }
 
 function openInfoWindow(store, marker) {
-    const loc = [store.city, store.state].filter(Boolean).join(', ');
     const addr = store.address ? `<p>${store.address}</p>` : '';
+    const loc = `<p>${store.city}, ${store.state}${store.zip ? ' ' + store.zip : ''}</p>`;
     const phone = store.phone ? `<p>${store.phone}</p>` : '';
     const web = store.website
-        ? `<p><a href="${store.website}" target="_blank" rel="noopener">Visit Website</a></p>` : '';
+        ? `<p><a href="${store.website}" target="_blank" rel="noopener">${store.website.replace(/^https?:\/\/(www\.)?/, '')}</a></p>` : '';
     const dist = store._distance != null
-        ? `<p><strong>${store._distance.toFixed(1)} miles away</strong></p>` : '';
+        ? `<p class="iw-distance">${store._distance.toFixed(1)} miles away</p>` : '';
 
-    const dirUrl = 'https://www.google.com/maps/dir/?api=1&destination=' +
-        encodeURIComponent([store.name, store.address, loc].filter(Boolean).join(', '));
+    const dirAddr = [store.name, store.address, store.city, store.state].filter(Boolean).join(', ');
+    const dirUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(dirAddr);
 
     infoWindow.setContent(`
         <div class="iw">
             <h4>${store.name}</h4>
-            <p>${loc}</p>
-            ${addr}${phone}${web}${dist}
+            ${addr}${loc}${phone}${web}${dist}
             <a class="directions-link" href="${dirUrl}" target="_blank" rel="noopener">Get Directions</a>
         </div>
     `);
