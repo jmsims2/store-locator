@@ -600,7 +600,7 @@ function openInfoWindow(store, marker) {
     const loc = `<p>${store.city}, ${store.state}${store.zip ? ' ' + store.zip : ''}</p>`;
     const phone = store.phone ? `<p>${store.phone}</p>` : '';
     const web = store.website
-        ? `<p><a href="${store.website}" target="_blank" rel="noopener">${store.website.replace(/^https?:\/\/(www\.)?/, '')}</a></p>` : '';
+        ? `<p><a href="${store.website}" target="_blank" rel="noopener">Website</a></p>` : '';
     const dist = store._distance != null
         ? `<p class="iw-distance">${store._distance.toFixed(1)} miles away</p>` : '';
 
@@ -679,7 +679,7 @@ function renderStores(list, searchMode) {
         const addr = store.address ? `<div class="store-address">${store.address}</div>` : '';
         const loc = `<div class="store-location">${store.city}, ${store.state}${store.zip ? ' ' + store.zip : ''}</div>`;
         const web = store.website
-            ? `<div class="store-website"><a href="${store.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${store.website.replace(/^https?:\/\/(www\.)?/, '')}</a></div>` : '';
+            ? `<div class="store-website"><a href="${store.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Website</a></div>` : '';
         const dist = showDist && store._distance != null
             ? `<div class="store-distance">${store._distance.toFixed(1)} miles away</div>` : '';
         return `<div class="store-item" data-index="${idx}" onclick="onStoreClick(${idx})">
